@@ -1,9 +1,10 @@
 import './util.js';
-import './data.js';
-import './createMiniatures.js';
-import {createPostDescription} from './data.js';
+//import './data.js';
+//import './createMiniatures.js';
+import { photoDescriptionArray } from './data.js';
 import { createElement } from './createMiniatures.js';
 
-const FinalPost = createPostDescription();
+const FinalPost = photoDescriptionArray();
+//console.log(FinalPost);
 createElement(FinalPost);
 

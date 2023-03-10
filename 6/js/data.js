@@ -1,5 +1,7 @@
 
-import {getRandomInteger} from './util.js';
+import { getRandomInteger } from './util.js';
+
+const descriptionsCount = 25;
 
 const personId = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25
@@ -82,8 +84,8 @@ const createPostDescription = () => {
   const randomNameIndex = getRandomInteger(0, profile.length - 1);
   return {
     id: personId[randomIdIndex],
-    avatar: `img/ ${randomAvatarIndex} -avatar.svg`,
-    urlAdress: `photos/ ${randomUrlIndex}.jpg`,
+    avatar: `img/${randomAvatarIndex}-avatar.svg`,
+    urlAdress: `photos/${randomUrlIndex}.jpg`,
     description: description[randomDescriptionIndex],
     likes: likes[randomLikesIndex],
     comment: comments[randomCommentIndex],
@@ -91,4 +93,4 @@ const createPostDescription = () => {
   };
 };
 
-export {createPostDescription};
+export const photoDescriptionArray = () => Array.from({ length: descriptionsCount }, createPostDescription);
