@@ -1,8 +1,7 @@
 import './util.js';
-import './data.js';
-import {createPost} from './data.js';
+import { photoDescriptionArray } from './data.js';
+import { createElement } from './createMiniatures.js';
 
-//console.log(
-createPost();
-//);
+const finalPosts = photoDescriptionArray();
+createElement(finalPosts);
 
