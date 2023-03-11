@@ -1,8 +1,3 @@
-
-//const userDialog = document.querySelector('.big-picture');
-//userDialog.classList.remove('hidden');
-
-
 const pictureContainer = document.querySelector('.pictures');
 const pictureElement = document.querySelector('#picture').content.querySelector('.picture');
 

@@ -75,13 +75,13 @@ const profile = [
 
 
 const createPostDescription = () => {
-  const randomIdIndex = getRandomInteger(0, personId.length - 1);
-  const randomAvatarIndex = getRandomInteger(0, avatar.length - 1);
-  const randomUrlIndex = getRandomInteger(0, urlAdress.length - 1);
-  const randomDescriptionIndex = getRandomInteger(0, description.length - 1);
+  const randomIdIndex = getRandomInteger(1, personId.length - 1);
+  const randomAvatarIndex = getRandomInteger(1, avatar.length - 1);
+  const randomUrlIndex = getRandomInteger(1, urlAdress.length - 1);
+  const randomDescriptionIndex = getRandomInteger(1, description.length - 1);
   const randomLikesIndex = getRandomInteger(0, likes.length - 1);
-  const randomCommentIndex = getRandomInteger(0, comments.length - 1);
-  const randomNameIndex = getRandomInteger(0, profile.length - 1);
+  const randomCommentIndex = getRandomInteger(1, comments.length - 1);
+  const randomNameIndex = getRandomInteger(1, profile.length - 1);
   return {
     id: personId[randomIdIndex],
     avatar: `img/${randomAvatarIndex}-avatar.svg`,
