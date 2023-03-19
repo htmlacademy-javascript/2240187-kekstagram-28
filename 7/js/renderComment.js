@@ -6,10 +6,10 @@ const renderComment = (randomCommentData) => {
   if (Array.isArray(randomCommentData)) {
     randomCommentData.forEach((item) => {
       const commentElement = commentTemplate.cloneNode(true);
-      commentTemplate.dataset.id = item.id;
-      commentTemplate.querySelector('.social__picture').src = item.avatar;
-      commentTemplate.querySelector('.social__picture').alt = item.name;
-      commentTemplate.querySelector('.social__text').innerHTML = item.message;
+      commentElement.dataset.id = item.id;
+      commentElement.querySelector('.social__picture').src = item.avatar;
+      commentElement.querySelector('.social__picture').alt = item.name;
+      commentElement.querySelector('.social__text').innerHTML = item.message;
       comment.appendChild(commentElement);
     });
     commentsContainer.append(comment);
