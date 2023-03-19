@@ -2,6 +2,11 @@ const commentsContainer = document.querySelector('.social__comments');
 const commentTemplate = document.querySelector('#social__comment').content.querySelector('.social__comment');
 const comment = document.createDocumentFragment();
 
+
+const clearComment = () => {
+  commentsContainer.innerHTML = '';
+};
+
 const renderComment = (randomCommentData) => {
   if (Array.isArray(randomCommentData)) {
     randomCommentData.forEach((item) => {
@@ -16,4 +21,4 @@ const renderComment = (randomCommentData) => {
   }
 };
 
-export { renderComment };
+export { renderComment, clearComment };
