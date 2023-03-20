@@ -1,7 +1,8 @@
-import './util.js';
+import './renderBigPicture.js';
 import { photoDescriptionArray } from './data.js';
-import { createElement } from './createMiniatures.js';
+import { renderThumbnail } from './renderThumbnail.js';
 
-const finalPosts = photoDescriptionArray();
-createElement(finalPosts);
+const thumbnailsData = photoDescriptionArray();
+renderThumbnail(thumbnailsData);
 
+export { thumbnailsData };
