@@ -12,6 +12,7 @@ const cancelBigPicture = bigPicture.querySelector('.big-picture__cancel');
 const photoDescription = bigPicture.querySelector('.social__caption');
 const loadCommentsButton = bigPicture.querySelector('.comments-loader');
 let commentShowCounter = 0;
+const commentShowStep = 5;
 
 const bigPictureCommentsArray = () => Array.from(bigPicture.querySelectorAll('.social__comment'));
 
@@ -24,10 +25,10 @@ const onDocumentKeydown = (evt) => {
 };
 
 const commentsLoadCounter = (allComments) => {
-  if ((allComments - commentShowCounter) < 5) {
+  if ((allComments - commentShowCounter) < commentShowStep) {
     commentShowCounter = commentShowCounter + (allComments - commentShowCounter);
   } else {
-    commentShowCounter = commentShowCounter + 5;
+    commentShowCounter = commentShowCounter + commentShowStep;
   }
 };
 
@@ -90,6 +91,7 @@ const closeBigPicture = () => {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
+  loadCommentsButton.removeEventListener('click', loadMoreComments);
   commentShowCounter = 0;
   clearComment();
 };
