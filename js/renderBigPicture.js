@@ -1,16 +1,20 @@
 import { isEscapeKey, isEnterKey } from './util.js';
 import { thumbnailContainer } from './renderThumbnail.js';
-import { renderComment, clearComment } from './renderComment.js';
+import { renderComments, clearComment } from './renderComment.js';
 import { thumbnailsData } from './main.js';
 
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img').querySelector('img');
 const bigPictureLikes = bigPicture.querySelector('.likes-count');
-const bigPictureComments = bigPicture.querySelector('.comments-count');
+const bigPictureCommentsAll = bigPicture.querySelector('.comments-count');
+const bigPictureComments = bigPicture.querySelector('.social__comment-count');
 const cancelBigPicture = bigPicture.querySelector('.big-picture__cancel');
 const photoDescription = bigPicture.querySelector('.social__caption');
-const commentsCount = bigPicture.querySelector('.social__comment-count');
 const loadCommentsButton = bigPicture.querySelector('.comments-loader');
+let commentShowCounter = 0;
+const commentShowStep = 5;
+
+const bigPictureCommentsArray = () => Array.from(bigPicture.querySelectorAll('.social__comment'));
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -20,22 +24,65 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
+const commentsLoadCounter = (allComments) => {
+  if ((allComments - commentShowCounter) < commentShowStep) {
+    commentShowCounter = commentShowCounter + (allComments - commentShowCounter);
+  } else {
+    commentShowCounter = commentShowCounter + commentShowStep;
+  }
+};
+
+const commentCounterUpdate = () => {
+  bigPictureComments.firstChild.data = `${commentShowCounter} из `;
+};
+
+const commentsShow = (allComments) => {
+  const commentsToShow = allComments.slice(0, commentShowCounter);
+  for (const comment of allComments) {
+    comment.classList.add('hidden');
+  }
+  for (const commentToShow of commentsToShow) {
+    commentToShow.classList.remove('hidden');
+  }
+};
+
+const commentsLoad = (commentsArray) => {
+
+  commentsLoadCounter(commentsArray.length);
+
+  if (commentShowCounter < commentsArray.length) {
+    commentsShow(commentsArray);
+  } else {
+    commentsShow(commentsArray);
+    loadCommentsButton.classList.add('hidden');
+  }
+};
+
+const loadMoreComments = () => {
+  commentsLoad(bigPictureCommentsArray());
+  commentCounterUpdate();
+};
+
+
 const openBigPicture = (evt) => {
   if (evt.target.closest('.picture')) {
-    const target = evt.target.closest('.picture'); //выбираем из pictures - picture
-    const currentThumbnailData = thumbnailsData.find((item) => item.id === Number(target.dataset.id)); //ищем в нашем массиве с картинками тот элемент который равен по ID картинке по которой мы клинкули. ID картинки мы присваивали в createMiniatures.js строка 10
+    const target = evt.target.closest('.picture');
+    const currentThumbnailData = thumbnailsData.find((item) => item.id === Number(target.dataset.id));
     bigPicture.classList.remove('hidden');
     document.body.classList.add('modal-open');
-    commentsCount.classList.add('hidden');
-    loadCommentsButton.classList.add('hidden');
-
-    bigPictureImg.src = currentThumbnailData.url; //выбираем в big-picture - big-picture__img а в нем тэг img и меняяем ему значение src на адрес кортинки из нашего массива который получили ранее.
+    bigPictureComments.classList.remove('hidden');
+    loadCommentsButton.classList.remove('hidden');
+    bigPictureImg.src = currentThumbnailData.url;
     photoDescription.innerHTML = currentThumbnailData.description;
     bigPictureLikes.innerHTML = currentThumbnailData.likes;
-    bigPictureComments.innerHTML = currentThumbnailData.comments.length;
+    bigPictureCommentsAll.innerHTML = currentThumbnailData.comments.length;
 
-    renderComment(currentThumbnailData.comments);
+    renderComments(currentThumbnailData.comments);
 
+    commentsLoad(bigPictureCommentsArray());
+    commentCounterUpdate();
+
+    loadCommentsButton.addEventListener('click', loadMoreComments);
     document.addEventListener('keydown', onDocumentKeydown);
   }
 };
@@ -44,6 +91,8 @@ const closeBigPicture = () => {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
+  loadCommentsButton.removeEventListener('click', loadMoreComments);
+  commentShowCounter = 0;
   clearComment();
 };
 

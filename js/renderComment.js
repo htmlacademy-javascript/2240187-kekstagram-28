@@ -7,7 +7,7 @@ const clearComment = () => {
   commentsContainer.innerHTML = '';
 };
 
-const renderComment = (randomCommentData) => {
+const renderComments = (randomCommentData) => {
   if (Array.isArray(randomCommentData)) {
     randomCommentData.forEach((item) => {
       const commentElement = commentTemplate.cloneNode(true);
@@ -21,4 +21,4 @@ const renderComment = (randomCommentData) => {
   }
 };
 
-export { renderComment, clearComment };
+export { renderComments, clearComment };
