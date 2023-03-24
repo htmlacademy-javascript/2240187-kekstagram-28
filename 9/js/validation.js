@@ -4,6 +4,7 @@ const submitButton = imageUploadForm.querySelector('.img-upload__submit');
 const hashtagInput = imageUploadForm.querySelector('.text__hashtags');
 const inputComment = imageUploadForm.querySelector('.text__description');
 const maxHashtagCount = 5;
+const maxCommentCharacters = 140;
 
 
 const pristine = new Pristine(imageUploadForm, {
@@ -49,8 +50,8 @@ function validateUniqueHashtag(hashtagString) {
   return true;
 }
 
-function validateComment(commetString) {
-  return commetString.length <= 140;
+function validateComment(commentString) {
+  return commentString.length <= maxCommentCharacters;
 }
 
 pristine.addValidator(hashtagInput, validateHashtag, 'Хэштег должен содержать только буквы и цифры. Хэштег должен начинаться с #. Хештег должен составлять не более 19 символов');
