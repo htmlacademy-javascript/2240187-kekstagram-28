@@ -11,14 +11,14 @@ const pristine = new Pristine(imageUploadForm, {
   errorTextParent: 'img-upload__field-wrapper',
 });
 
-function validateHashtag (item) {
-  if (item === '') {
+function validateHashtag (hashtagString) {
+  if (hashtagString === '') {
     return true;
   }
-  const inputString = item.split(' ');
   const hashtagRegexp = /^#[a-zа-яё0-9]{1,19}$/i;
-  for (let i = 0; i < inputString.length; i++) {
-    const hashtag = inputString[i];
+  const hashtagStringArray = hashtagString.split(' ');
+  for (let i = 0; i < hashtagStringArray.length; i++) {
+    const hashtag = hashtagStringArray[i];
     if (!hashtagRegexp.test(hashtag)) {
       return false;
     }
@@ -26,23 +26,20 @@ function validateHashtag (item) {
   return true;
 }
 
-function validateHashtagLength (item) {
-  const inputString = item.split(' ');
-  for (let i = 0; i < inputString.length; i++) {
-    if (inputString.length > maxHashtagCount) {
-      return false;
-    }
+function validateHashtagCount(hashtagString) {
+  const hashtagStringArray = hashtagString.split(' ');
+  if (hashtagStringArray.length > maxHashtagCount) {
+    return false;
   }
   return true;
 }
 
 
-function validateUniqueHashtag (item) {
-  const inputString = item.split(' ');
-  const usedHashtags = [];
-  for (let i = 0; i < inputString.length; i++) {
-    const hashtag = inputString[i];
-
+function validateUniqueHashtag(hashtagString) {
+  const hashtagStringArray = hashtagString.split(' ');
+  const usedHashtags = {};
+  for (let i = 0; i < hashtagStringArray.length; i++) {
+    const hashtag = hashtagStringArray[i];
     if (usedHashtags[hashtag.toLowerCase()]) {
       return false;
     } else {
@@ -52,21 +49,19 @@ function validateUniqueHashtag (item) {
   return true;
 }
 
-pristine.addValidator(hashtagInput, validateHashtag, 'Хэштег должен содержать только буквы и цифры. Хештег должен составлять не более пяти символов');
-pristine.addValidator(hashtagInput, validateHashtagLength, 'Один хэштег должен использоваться только один раз');
-pristine.addValidator(hashtagInput, validateUniqueHashtag, 'Может использоваться не более пяти хэштегов');
+function validateComment(commetString) {
+  return commetString.length <= 140;
+}
+
+pristine.addValidator(hashtagInput, validateHashtag, 'Хэштег должен содержать только буквы и цифры. Хэштег должен начинаться с #. Хештег должен составлять не более 19 символов');
+pristine.addValidator(hashtagInput, validateHashtagCount, 'Может использоваться не более пяти хэштегов');
+pristine.addValidator(hashtagInput, validateUniqueHashtag, 'Один хэштег должен использоваться только один раз');
+pristine.addValidator(inputComment, validateComment, 'Комментарий должен содержать не более 140 символов');
 
 hashtagInput.addEventListener('keyup', () => {
   pristine.validate();
   submitButton.disabled = (!pristine.validate());
 });
-
-function validateComment(item) {
-
-  return item.length <= 140;
-}
-
-pristine.addValidator(inputComment, validateComment, 'Комментарий должен содержать не более 140 символов');
 
 inputComment.addEventListener('keyup', () => {
   pristine.validate();
