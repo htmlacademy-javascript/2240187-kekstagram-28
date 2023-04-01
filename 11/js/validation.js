@@ -3,9 +3,8 @@ export const hashtagInput = imageUploadForm.querySelector('.text__hashtags');
 export const commentInput = imageUploadForm.querySelector('.text__description');
 const uploadForm = document.querySelector('#upload-select-image');
 const uploadSubmitButton = uploadForm.querySelector('#upload-submit');
-import { showAlert } from './util.js';
 import { sendData } from './api.js';
-import { renderSuccessMessage, renderErrorMessage } from './downoladMessage.js';
+import { renderSuccessMessage, renderErrorMessage } from './renderUploadMessage.js';
 const maxHashtagCount = 5;
 const maxCommentCharacters = 140;
 const submitButtonText = {
@@ -102,11 +101,13 @@ const setUserFormSubmit = () => {
     if (isValid) {
       blockSubmitButton();
       sendData(new FormData(evt.target))
-        .then((onSuccess) => {
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error();
+          }
           renderSuccessMessage();
         })
-        .catch((err) => {
-          showAlert(err.message);
+        .catch(() => {
           renderErrorMessage();
         })
         .finally(unblockSubmitButton);
@@ -114,5 +115,5 @@ const setUserFormSubmit = () => {
   });
 };
 
-export { setUserFormSubmit };
+setUserFormSubmit();
 
