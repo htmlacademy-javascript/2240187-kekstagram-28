@@ -3,13 +3,13 @@ import { scaleImageReset, scaleDefault, scaleValueControl, scaleBigger, scaleSma
 import { imageUploadForm, hashtagInput, commentInput, pristine } from './validation.js';
 import { effectChange, effectReset } from './renderImageEffect.js';
 
-export const uploadPhotoSection = document.querySelector('.img-upload__overlay');
+const uploadPhotoSection = document.querySelector('.img-upload__overlay');
 const imageUpload = document.querySelector('#upload-file');
 const cancelButton = document.querySelector('#upload-cancel');
 
 const onDocKeydown = (evt) => {
   if (isEscapeKey(evt)) {
-    closeImageRedactor();
+    closeImageEditor();
   }
 };
 
@@ -36,7 +36,7 @@ const removeInputListener = () => {
   commentInput.removeEventListener('blur', inputOutFocus);
 };
 
-export function closeImageRedactor() {
+export function closeImageEditor() {
   uploadPhotoSection.classList.add('hidden');
   document.body.classList.remove('modal-open');
   imageUploadForm.reset();
@@ -47,12 +47,12 @@ export function closeImageRedactor() {
 
   scaleSmaller.removeEventListener('click', buttonSmaller);
   scaleBigger.removeEventListener('click', buttonBigger);
-  cancelButton.removeEventListener('click', closeImageRedactor);
+  cancelButton.removeEventListener('click', closeImageEditor);
   imageUploadForm.removeEventListener('change', effectChange);
   imageUploadForm.removeEventListener('keydown', onDocKeydown);
 }
 
-function openImageRedactor() {
+function openImageEditor() {
   uploadPhotoSection.classList.remove('hidden');
   document.body.classList.add('modal-open');
   scaleValueControl.value = `${scaleDefault}%`;
@@ -60,9 +60,13 @@ function openImageRedactor() {
 
   scaleSmaller.addEventListener('click', buttonSmaller);
   scaleBigger.addEventListener('click', buttonBigger);
-  cancelButton.addEventListener('click', closeImageRedactor);
+  cancelButton.addEventListener('click', closeImageEditor);
   imageUploadForm.addEventListener('change', effectChange);
   imageUploadForm.addEventListener('keydown', onDocKeydown);
 }
 
-imageUpload.addEventListener('change', openImageRedactor);
+const renderUploadImage = () => {
+  imageUpload.addEventListener('change', openImageEditor);
+};
+
+export {renderUploadImage};

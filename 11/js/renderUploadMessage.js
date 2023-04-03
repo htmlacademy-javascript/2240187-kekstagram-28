@@ -1,20 +1,20 @@
 import { isEscapeKey } from './util.js';
-import { uploadPhotoSection, closeImageRedactor } from './renderUploadImage.js';
+import { closeImageEditor} from './renderUploadImage.js';
 const uploadMessageContainer = document.querySelector('body');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-
+const uploadPhotoSection = document.querySelector('.img-upload__overlay');
 
 const closeSuccessWindow = () => {
   document.querySelector('.success').remove();
-  document.removeEventListener('click', outOfTheBox);
+  document.removeEventListener('click', onOutOfTheBoxClick);
   uploadMessageContainer.removeEventListener('keydown', onDocKeydown);
-  closeImageRedactor();
+  closeImageEditor();
 };
 
 const closeErrorWindow = () => {
   document.querySelector('.error').remove();
-  document.removeEventListener('click', outOfTheBox);
+  document.removeEventListener('click', onOutOfTheBoxClick);
   uploadMessageContainer.removeEventListener('keydown', onDocKeydown);
 };
 
@@ -30,7 +30,7 @@ function onDocKeydown(evt) {
   }
 }
 
-function outOfTheBox(evt) {
+function onOutOfTheBoxClick(evt) {
   const successWindow = document.querySelector('.success');
   const errorWindow = document.querySelector('.error');
   if (evt.target === successWindow) {
@@ -47,7 +47,7 @@ const renderSuccessMessage = () => {
   uploadMessageContainer.append(successWindow);
   uploadMessageContainer.addEventListener('keydown', onDocKeydown);
   uploadPhotoSection.classList.add('modal-open');
-  document.addEventListener('click', outOfTheBox);
+  document.addEventListener('click', onOutOfTheBoxClick);
 };
 
 const renderErrorMessage = () => {
@@ -57,7 +57,7 @@ const renderErrorMessage = () => {
   uploadMessageContainer.append(errorWindow);
   uploadMessageContainer.addEventListener('keydown', onDocKeydown);
   uploadPhotoSection.classList.add('modal-open');
-  document.addEventListener('click', outOfTheBox);
+  document.addEventListener('click', onOutOfTheBoxClick);
 };
 
 export { renderSuccessMessage, renderErrorMessage };

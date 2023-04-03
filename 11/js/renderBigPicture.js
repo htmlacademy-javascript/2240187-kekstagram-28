@@ -1,7 +1,6 @@
 import { isEscapeKey, isEnterKey } from './util.js';
 import { thumbnailContainer } from './renderThumbnail.js';
 import { renderComments, clearComment } from './renderComment.js';
-
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture
   .querySelector('.big-picture__img')
@@ -15,10 +14,10 @@ const loadCommentsButton = bigPicture.querySelector('.comments-loader');
 let commentShowCounter = 0;
 const commentShowStep = 5;
 
-const bigPictureCommentsArray = () =>
+const getBigPictureComments = () =>
   Array.from(bigPicture.querySelectorAll('.social__comment'));
 
-const commentsLoadCounter = (allComments) => {
+const loadCommentsCounter = (allComments) => {
   if (allComments - commentShowCounter < commentShowStep) {
     commentShowCounter =
       commentShowCounter + (allComments - commentShowCounter);
@@ -27,7 +26,7 @@ const commentsLoadCounter = (allComments) => {
   }
 };
 
-const commentCounterUpdate = () => {
+const updateCommentCounter = () => {
   bigPictureComments.firstChild.data = `${commentShowCounter} из `;
 };
 
@@ -41,8 +40,8 @@ const commentsShow = (allComments) => {
   }
 };
 
-const commentsLoad = (commentsArray) => {
-  commentsLoadCounter(commentsArray.length);
+const loadComments = (commentsArray) => {
+  loadCommentsCounter(commentsArray.length);
   if (commentShowCounter < commentsArray.length) {
     commentsShow(commentsArray);
   } else {
@@ -52,8 +51,8 @@ const commentsLoad = (commentsArray) => {
 };
 
 const loadMoreComments = () => {
-  commentsLoad(bigPictureCommentsArray());
-  commentCounterUpdate();
+  loadComments(getBigPictureComments());
+  updateCommentCounter();
 };
 
 const onDocumentKeydown = (evt) => {
@@ -81,43 +80,43 @@ const closeBigPicture = () => {
   cancelBigPicture.removeEventListener('keydown', onDocumentKeydown);
 };
 
+const openBigPicture = (evt, thumbnailsData) => {
+  if (evt.target.closest('.picture')) {
+    const target = evt.target.closest('.picture');
+    const currentThumbnailData = thumbnailsData.find(
+      (item) => item.id === Number(target.dataset.id)
+    );
+    bigPicture.classList.remove('hidden');
+    document.body.classList.add('modal-open');
+    bigPictureComments.classList.remove('hidden');
+    loadCommentsButton.classList.remove('hidden');
+    bigPictureImg.src = currentThumbnailData.url;
+    photoDescription.innerHTML = currentThumbnailData.description;
+    bigPictureLikes.innerHTML = currentThumbnailData.likes;
+    bigPictureCommentsAll.innerHTML = currentThumbnailData.comments.length;
+
+    renderComments(currentThumbnailData.comments);
+
+    loadComments(getBigPictureComments());
+    updateCommentCounter();
+
+    loadCommentsButton.addEventListener('click', loadMoreComments);
+    cancelBigPicture.addEventListener('click', closeBigPicture);
+    cancelBigPicture.addEventListener('keydown', onDocumentKeydown);
+    document.addEventListener('keydown', onDocumentKeydown);
+  }
+};
 
 const renderBigPicture = (thumbnailsData) => {
-  const openBigPicture = (evt) => {
-    if (evt.target.closest('.picture')) {
-      const target = evt.target.closest('.picture');
-      const currentThumbnailData = thumbnailsData.find(
-        (item) => item.id === Number(target.dataset.id)
-      );
-      bigPicture.classList.remove('hidden');
-      document.body.classList.add('modal-open');
-      bigPictureComments.classList.remove('hidden');
-      loadCommentsButton.classList.remove('hidden');
-      bigPictureImg.src = currentThumbnailData.url;
-      photoDescription.innerHTML = currentThumbnailData.description;
-      bigPictureLikes.innerHTML = currentThumbnailData.likes;
-      bigPictureCommentsAll.innerHTML = currentThumbnailData.comments.length;
-
-      renderComments(currentThumbnailData.comments);
-
-      commentsLoad(bigPictureCommentsArray());
-      commentCounterUpdate();
-
-      loadCommentsButton.addEventListener('click', loadMoreComments);
-      cancelBigPicture.addEventListener('click', closeBigPicture);
-      cancelBigPicture.addEventListener('keydown', onDocumentKeydown);
-      document.addEventListener('keydown', onDocumentKeydown);
-    }
-  };
-
-  thumbnailContainer.addEventListener('click', openBigPicture);
-
+  thumbnailContainer.addEventListener('click', (evt) => {
+    openBigPicture(evt, thumbnailsData);
+  });
   thumbnailContainer.addEventListener('keydown', (evt) => {
     if (isEnterKey(evt)) {
-      openBigPicture();
+      openBigPicture(evt, thumbnailsData);
     }
   });
 };
 
 export { renderBigPicture, closeBigPicture };
-//user modal
+

@@ -19,5 +19,3 @@ const renderThumbnail = (thumbnailData) => {
 };
 
 export { renderThumbnail };
-
-//similar list

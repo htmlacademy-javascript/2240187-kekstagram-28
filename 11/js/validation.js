@@ -115,5 +115,6 @@ const setUserFormSubmit = () => {
   });
 };
 
-setUserFormSubmit();
 
+export {setUserFormSubmit};
+ 
