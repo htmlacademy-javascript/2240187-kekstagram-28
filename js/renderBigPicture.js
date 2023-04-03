@@ -1,8 +1,6 @@
 import { isEscapeKey, isEnterKey } from './util.js';
 import { thumbnailContainer } from './renderThumbnail.js';
 import { renderComments, clearComment } from './renderComment.js';
-import { thumbnailsData } from './main.js';
-
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture
   .querySelector('.big-picture__img')
@@ -16,10 +14,10 @@ const loadCommentsButton = bigPicture.querySelector('.comments-loader');
 let commentShowCounter = 0;
 const commentShowStep = 5;
 
-const bigPictureCommentsArray = () =>
+const getBigPictureComments = () =>
   Array.from(bigPicture.querySelectorAll('.social__comment'));
 
-const commentsLoadCounter = (allComments) => {
+const loadCommentsCounter = (allComments) => {
   if (allComments - commentShowCounter < commentShowStep) {
     commentShowCounter =
       commentShowCounter + (allComments - commentShowCounter);
@@ -28,7 +26,7 @@ const commentsLoadCounter = (allComments) => {
   }
 };
 
-const commentCounterUpdate = () => {
+const updateCommentCounter = () => {
   bigPictureComments.firstChild.data = `${commentShowCounter} из `;
 };
 
@@ -42,8 +40,8 @@ const commentsShow = (allComments) => {
   }
 };
 
-const commentsLoad = (commentsArray) => {
-  commentsLoadCounter(commentsArray.length);
+const loadComments = (commentsArray) => {
+  loadCommentsCounter(commentsArray.length);
   if (commentShowCounter < commentsArray.length) {
     commentsShow(commentsArray);
   } else {
@@ -53,8 +51,21 @@ const commentsLoad = (commentsArray) => {
 };
 
 const loadMoreComments = () => {
-  commentsLoad(bigPictureCommentsArray());
-  commentCounterUpdate();
+  loadComments(getBigPictureComments());
+  updateCommentCounter();
+};
+
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    bigPicture.classList.add('hidden');
+    document.body.classList.remove('modal-open');
+    commentShowCounter = 0;
+    clearComment();
+
+    document.removeEventListener('keydown', onDocumentKeydown);
+    loadCommentsButton.removeEventListener('click', loadMoreComments);
+    cancelBigPicture.removeEventListener('keydown', onDocumentKeydown);
+  }
 };
 
 const closeBigPicture = () => {
@@ -63,19 +74,13 @@ const closeBigPicture = () => {
   commentShowCounter = 0;
   clearComment();
 
-  document.removeEventListener('keydown');
-  loadCommentsButton.removeEventListener('click');
-  cancelBigPicture.removeEventListener('click');
-  cancelBigPicture.removeEventListener('keydown');
+  document.removeEventListener('keydown', onDocumentKeydown);
+  loadCommentsButton.removeEventListener('click', loadMoreComments);
+  cancelBigPicture.removeEventListener('click', closeBigPicture);
+  cancelBigPicture.removeEventListener('keydown', onDocumentKeydown);
 };
 
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    closeBigPicture();
-  }
-};
-
-const openBigPicture = (evt) => {
+const openBigPicture = (evt, thumbnailsData) => {
   if (evt.target.closest('.picture')) {
     const target = evt.target.closest('.picture');
     const currentThumbnailData = thumbnailsData.find(
@@ -92,8 +97,8 @@ const openBigPicture = (evt) => {
 
     renderComments(currentThumbnailData.comments);
 
-    commentsLoad(bigPictureCommentsArray());
-    commentCounterUpdate();
+    loadComments(getBigPictureComments());
+    updateCommentCounter();
 
     loadCommentsButton.addEventListener('click', loadMoreComments);
     cancelBigPicture.addEventListener('click', closeBigPicture);
@@ -102,10 +107,16 @@ const openBigPicture = (evt) => {
   }
 };
 
-thumbnailContainer.addEventListener('click', openBigPicture);
+const renderBigPicture = (thumbnailsData) => {
+  thumbnailContainer.addEventListener('click', (evt) => {
+    openBigPicture(evt, thumbnailsData);
+  });
+  thumbnailContainer.addEventListener('keydown', (evt) => {
+    if (isEnterKey(evt)) {
+      openBigPicture(evt, thumbnailsData);
+    }
+  });
+};
 
-thumbnailContainer.addEventListener('keydown', (evt) => {
-  if (isEnterKey(evt)) {
-    openBigPicture();
-  }
-});
+export { renderBigPicture, closeBigPicture };
+

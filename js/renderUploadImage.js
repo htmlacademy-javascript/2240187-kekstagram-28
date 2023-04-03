@@ -1,7 +1,7 @@
 import { isEscapeKey } from './util.js';
 import { scaleImageReset, scaleDefault, scaleValueControl, scaleBigger, scaleSmaller, buttonBigger, buttonSmaller } from './scale.js';
 import { imageUploadForm, hashtagInput, commentInput, pristine } from './validation.js';
-import { effectChange, effectReset } from './filter.js';
+import { effectChange, effectReset } from './renderImageEffect.js';
 
 const uploadPhotoSection = document.querySelector('.img-upload__overlay');
 const imageUpload = document.querySelector('#upload-file');
@@ -9,17 +9,17 @@ const cancelButton = document.querySelector('#upload-cancel');
 
 const onDocKeydown = (evt) => {
   if (isEscapeKey(evt)) {
-    closeImageRedactor();
+    closeImageEditor();
   }
 };
 
 
 const inputInFocus = () => {
-  document.removeEventListener('keydown', onDocKeydown);
+  imageUpload.removeEventListener('keydown', onDocKeydown);
 };
 
 const inputOutFocus = () => {
-  document.addEventListener('keydown', onDocKeydown);
+  imageUpload.addEventListener('keydown', onDocKeydown);
 };
 
 const addInputListener = () => {
@@ -36,7 +36,7 @@ const removeInputListener = () => {
   commentInput.removeEventListener('blur', inputOutFocus);
 };
 
-function closeImageRedactor() {
+export function closeImageEditor() {
   uploadPhotoSection.classList.add('hidden');
   document.body.classList.remove('modal-open');
   imageUploadForm.reset();
@@ -47,13 +47,12 @@ function closeImageRedactor() {
 
   scaleSmaller.removeEventListener('click', buttonSmaller);
   scaleBigger.removeEventListener('click', buttonBigger);
-  cancelButton.removeEventListener('click', closeImageRedactor);
+  cancelButton.removeEventListener('click', closeImageEditor);
   imageUploadForm.removeEventListener('change', effectChange);
-  document.removeEventListener('keydown', onDocKeydown);
+  imageUploadForm.removeEventListener('keydown', onDocKeydown);
 }
 
-
-function openImageRedactor() {
+function openImageEditor() {
   uploadPhotoSection.classList.remove('hidden');
   document.body.classList.add('modal-open');
   scaleValueControl.value = `${scaleDefault}%`;
@@ -61,10 +60,13 @@ function openImageRedactor() {
 
   scaleSmaller.addEventListener('click', buttonSmaller);
   scaleBigger.addEventListener('click', buttonBigger);
-  cancelButton.addEventListener('click', closeImageRedactor);
+  cancelButton.addEventListener('click', closeImageEditor);
   imageUploadForm.addEventListener('change', effectChange);
-  document.addEventListener('keydown', onDocKeydown);
+  imageUploadForm.addEventListener('keydown', onDocKeydown);
 }
 
-imageUpload.addEventListener('change', openImageRedactor);
+const renderUploadImage = () => {
+  imageUpload.addEventListener('change', openImageEditor);
+};
 
+export {renderUploadImage};

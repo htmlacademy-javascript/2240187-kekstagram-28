@@ -1,9 +1,21 @@
-import './renderBigPicture.js';
-import { photoDescriptionArray } from './data.js';
 import { renderThumbnail } from './renderThumbnail.js';
-import './uploadImage.js';
+import { renderBigPicture } from './renderBigPicture.js';
+import {renderUploadImage} from './renderUploadImage.js';
+import { getData } from './api.js';
+import { showAlert } from './util.js';
+import { setUserFormSubmit } from './validation.js';
 
-const thumbnailsData = photoDescriptionArray();
-renderThumbnail(thumbnailsData);
+setUserFormSubmit();
+getData()
+  .then((response) => response.json())
+  .then((data) => {
+    renderThumbnail(data);
+    renderBigPicture(data);
+    renderUploadImage(data);
+  })
+  .catch(
+    (err) => {
+      showAlert(err.message);
+    }
+  );
 
-export { thumbnailsData };

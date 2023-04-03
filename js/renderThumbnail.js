@@ -14,6 +14,7 @@ const renderThumbnail = (thumbnailData) => {
       thumbnail.appendChild(thumbnailElement);
     });
     thumbnailContainer.append(thumbnail);
+    thumbnailContainer.classList.remove('hidden');
   }
 };
 
