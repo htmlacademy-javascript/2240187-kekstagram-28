@@ -45,8 +45,8 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 const isEnterKey = (evt) => evt.key === 'Enter';
 
 const showAlert = (message) => {
-  const alertContainer = document.querySelector('.show__alert');
-
+  const alertContainer = document.querySelector('.connection_error');
+  alertContainer.classList.remove('hidden');
   alertContainer.textContent = message;
 
   setTimeout(() => {

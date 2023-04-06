@@ -1,45 +1,40 @@
+import { reRenderAll } from './main.js';
+
 const showFiltersBarContainer = document.querySelector('main');
 const showFilterButton = showFiltersBarContainer.querySelector('.img-filters');
-showFilterButton.classList.remove('img-filters--inactive');
 const sortByDefaultButton = document.querySelector('#filter-default');
 const sortByRandomButton = document.querySelector('#filter-random');
 const sortByCommentsNumberButton = document.querySelector('#filter-discussed');
-const photosCount = 10;
-import { reRenderAll } from './main.js';
+const pictureCount = 10;
 
-export const sortRandlomly = (data) => {
-  data = data.slice(0, photosCount);
-  let i = data.length;
-  while (i--) {
-    const ri = Math.floor(Math.random() * i);
-    [data[i], data[ri]] = [data[ri], data[i]];
+showFilterButton.classList.remove('img-filters--inactive');
+
+const randomSort = () => Math.random() - 0.5;
+
+const discussedSort = (a, b) => b.comments.length - a.comments.length;
+
+const defaultSort = (a, b) => a.id - b.id;
+
+function resetPictures () {
+  const allPicture = document.querySelectorAll('.picture');
+  for (let i = 0; i < allPicture.length; i++) {
+    allPicture[i].remove();
   }
-  return sortRandlomly;
-};
-
-export const sortByCommentsNumber = (data) => {
-  data.sort((a, b) => b.comments.length - a.comments.length);
-  return data;
-};
+}
 
 const renderFilters = (data) => {
   sortByDefaultButton.addEventListener('click', () => {
-    reRenderAll(data);
+    resetPictures();
+    reRenderAll(data.sort(defaultSort));
   });
   sortByRandomButton.addEventListener('click', () => {
-    reRenderAll(sortRandlomly(data));
+    resetPictures();
+    reRenderAll(data.sort(randomSort).slice(0, pictureCount));
   });
   sortByCommentsNumberButton.addEventListener('click', () => {
-    reRenderAll(sortByCommentsNumber(data));
+    resetPictures();
+    reRenderAll(data.sort(discussedSort));
   });
 };
 
 export { renderFilters };
-
-/*
-1. querySelector для каждой кнопки фильтра +
-2. функция для рандомной сортировки, для дефолтной сортировки, для сортировки по комментам +
-3. const для трех типов сортировки, каждый тип сортировки должен быть равен какой то констенте
-4. импортировать в sortphotos функцию rerenderall +
-5. навесить клик на каждую кнопку фильтра, вызвав функцию rerenderall c отсортированным необходимым образом массивом
-*/

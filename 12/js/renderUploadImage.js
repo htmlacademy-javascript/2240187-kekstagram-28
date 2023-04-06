@@ -2,10 +2,12 @@ import { isEscapeKey } from './util.js';
 import { scaleImageReset, scaleDefault, scaleValueControl, scaleBigger, scaleSmaller, buttonBigger, buttonSmaller } from './scale.js';
 import { imageUploadForm, hashtagInput, commentInput, pristine } from './validation.js';
 import { effectChange, effectReset } from './renderImageEffect.js';
+import { imagePreview } from './scale.js';
 
 const uploadPhotoSection = document.querySelector('.img-upload__overlay');
 const imageUpload = document.querySelector('#upload-file');
 const cancelButton = document.querySelector('#upload-cancel');
+const imageUploadButton = document.querySelector('.img-upload__input');
 
 const onDocKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -53,6 +55,10 @@ export function closeImageEditor() {
 }
 
 function openImageEditor() {
+  const imageUrl = imageUploadButton.files[0];
+  //console.log(image);
+  imagePreview.src = URL.createObjectURL(imageUrl);
+
   uploadPhotoSection.classList.remove('hidden');
   document.body.classList.add('modal-open');
   scaleValueControl.value = `${scaleDefault}%`;
