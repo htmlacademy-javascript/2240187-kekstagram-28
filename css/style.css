@@ -43,6 +43,19 @@ main {
   position: relative;
 }
 
+.show__alert {
+  display: block;
+  background-color: #FF0000;
+  z-index: 100;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  padding: 10px 3px;
+  font-size: 30px;
+  text-align: center;
+};
+
 .content-box-component {
   -webkit-box-sizing: content-box;
           box-sizing: content-box;
@@ -1244,18 +1257,6 @@ main {
 .success__button:active {
   opacity: 0.6;
 }
-
-.show__alert {
-  z-index: '100';
-  position: 'absolute';
-  left: '0';
-  top: '0';
-  right: '0';
-  padding: '10px 3px';
-  font-size: '30px';
-  text-align: 'center';
-  background-color: 'red';
-};
 
 /**
  * Экран загрузки изображения

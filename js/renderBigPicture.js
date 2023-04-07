@@ -1,6 +1,7 @@
 import { isEscapeKey, isEnterKey } from './util.js';
-import { thumbnailContainer } from './renderThumbnail.js';
 import { renderComments, clearComment } from './renderComment.js';
+
+const thumbnailContainer = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture
   .querySelector('.big-picture__img')
@@ -81,31 +82,33 @@ const closeBigPicture = () => {
 };
 
 const openBigPicture = (evt, thumbnailsData) => {
-  if (evt.target.closest('.picture')) {
-    const target = evt.target.closest('.picture');
-    const currentThumbnailData = thumbnailsData.find(
-      (item) => item.id === Number(target.dataset.id)
-    );
-    bigPicture.classList.remove('hidden');
-    document.body.classList.add('modal-open');
-    bigPictureComments.classList.remove('hidden');
-    loadCommentsButton.classList.remove('hidden');
-    bigPictureImg.src = currentThumbnailData.url;
-    photoDescription.innerHTML = currentThumbnailData.description;
-    bigPictureLikes.innerHTML = currentThumbnailData.likes;
-    bigPictureCommentsAll.innerHTML = currentThumbnailData.comments.length;
-
-    renderComments(currentThumbnailData.comments);
-
-    loadComments(getBigPictureComments());
-    updateCommentCounter();
-
-    loadCommentsButton.addEventListener('click', loadMoreComments);
-    cancelBigPicture.addEventListener('click', closeBigPicture);
-    cancelBigPicture.addEventListener('keydown', onDocumentKeydown);
-    document.addEventListener('keydown', onDocumentKeydown);
+  if (!evt.target.closest('.picture')) {
+    return;
   }
+  const target = evt.target.closest('.picture');
+  const currentThumbnailData = thumbnailsData.find(
+    (item) => item.id === Number(target.dataset.id)
+  );
+  bigPicture.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+  bigPictureComments.classList.remove('hidden');
+  loadCommentsButton.classList.remove('hidden');
+  bigPictureImg.src = currentThumbnailData.url;
+  photoDescription.innerHTML = currentThumbnailData.description;
+  bigPictureLikes.innerHTML = currentThumbnailData.likes;
+  bigPictureCommentsAll.innerHTML = currentThumbnailData.comments.length;
+
+  renderComments(currentThumbnailData.comments);
+
+  loadComments(getBigPictureComments());
+  updateCommentCounter();
+
+  loadCommentsButton.addEventListener('click', loadMoreComments);
+  cancelBigPicture.addEventListener('click', closeBigPicture);
+  cancelBigPicture.addEventListener('keydown', onDocumentKeydown);
+  document.addEventListener('keydown', onDocumentKeydown);
 };
+
 
 const renderBigPicture = (thumbnailsData) => {
   thumbnailContainer.addEventListener('click', (evt) => {

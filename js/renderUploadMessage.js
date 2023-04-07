@@ -1,5 +1,6 @@
 import { isEscapeKey } from './util.js';
 import { closeImageEditor} from './renderUploadImage.js';
+
 const uploadMessageContainer = document.querySelector('body');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');

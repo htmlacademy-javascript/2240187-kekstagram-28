@@ -46,7 +46,7 @@ const isEnterKey = (evt) => evt.key === 'Enter';
 
 const showAlert = (message) => {
   const alertContainer = document.querySelector('.show__alert');
-
+  alertContainer.classList.remove('hidden');
   alertContainer.textContent = message;
 
   setTimeout(() => {

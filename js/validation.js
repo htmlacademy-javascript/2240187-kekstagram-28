@@ -1,10 +1,11 @@
-export const imageUploadForm = document.querySelector('.img-upload__form');
-export const hashtagInput = imageUploadForm.querySelector('.text__hashtags');
-export const commentInput = imageUploadForm.querySelector('.text__description');
-const uploadForm = document.querySelector('#upload-select-image');
-const uploadSubmitButton = uploadForm.querySelector('#upload-submit');
 import { sendData } from './api.js';
 import { renderSuccessMessage, renderErrorMessage } from './renderUploadMessage.js';
+
+const imageUploadForm = document.querySelector('.img-upload__form');
+const hashtagInput = imageUploadForm.querySelector('.text__hashtags');
+const commentInput = imageUploadForm.querySelector('.text__description');
+const uploadForm = document.querySelector('#upload-select-image');
+const uploadSubmitButton = uploadForm.querySelector('#upload-submit');
 const maxHashtagCount = 5;
 const maxCommentCharacters = 140;
 const submitButtonText = {
@@ -12,7 +13,7 @@ const submitButtonText = {
   SENDING: 'Сохраняю...'
 };
 
-export const pristine = new Pristine(imageUploadForm, {
+const pristine = new Pristine(imageUploadForm, {
   classTo: 'img-upload__text',
   errorClass: 'img-upload__text--invalid',
   successClass: 'img-upload__text--valid',
@@ -116,4 +117,4 @@ const setUserFormSubmit = () => {
 };
 
 
-export {setUserFormSubmit};
+export { setUserFormSubmit, pristine };

@@ -1,11 +1,20 @@
 import { isEscapeKey } from './util.js';
-import { scaleImageReset, scaleDefault, scaleValueControl, scaleBigger, scaleSmaller, buttonBigger, buttonSmaller } from './scale.js';
-import { imageUploadForm, hashtagInput, commentInput, pristine } from './validation.js';
+import { scaleImageReset, buttonBigger, buttonSmaller } from './scale.js';
+import { pristine } from './validation.js';
 import { effectChange, effectReset } from './renderImageEffect.js';
 
+const imagePreview = document.querySelector('.img-upload__preview img');
+const imageUploadForm = document.querySelector('.img-upload__form');
+const hashtagInput = imageUploadForm.querySelector('.text__hashtags');
+const commentInput = imageUploadForm.querySelector('.text__description');
 const uploadPhotoSection = document.querySelector('.img-upload__overlay');
 const imageUpload = document.querySelector('#upload-file');
 const cancelButton = document.querySelector('#upload-cancel');
+const imageUploadButton = document.querySelector('.img-upload__input');
+const scaleValueControl = document.querySelector('.scale__control--value');
+const scaleSmaller = document.querySelector('.scale__control--smaller');
+const scaleBigger = document.querySelector('.scale__control--bigger');
+const scaleDefault = 100;
 
 const onDocKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -53,6 +62,10 @@ export function closeImageEditor() {
 }
 
 function openImageEditor() {
+  const imageUrl = imageUploadButton.files[0];
+  //console.log(image);
+  imagePreview.src = URL.createObjectURL(imageUrl);
+
   uploadPhotoSection.classList.remove('hidden');
   document.body.classList.add('modal-open');
   scaleValueControl.value = `${scaleDefault}%`;

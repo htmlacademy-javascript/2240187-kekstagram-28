@@ -1,5 +1,4 @@
-import { imagePreview } from './scale.js';
-
+const imagePreview = document.querySelector('.img-upload__preview img');
 const imgPreviewContainer = document.querySelector('.img-upload__preview-container');
 const sliderElement = imgPreviewContainer.querySelector('.effect-level__slider');
 const valueElement = imgPreviewContainer.querySelector('.effect-level__value');
@@ -50,22 +49,23 @@ const effectSliderUpdate = () => {
   });
 };
 
-export const effectReset = () => {
+const effectReset = () => {
   imageEffectCurrent = imageEffectNone;
   effectSliderUpdate();
 };
 
-export function effectChange(evt) {
+function effectChange(evt) {
   if (evt.target.classList.contains('effects__radio')) {
     const effectName = evt.target.value;
     imagePreview.className = `effects__preview--${effectName}`;
     imageEffectCurrent = imageEffect.find((effect) => effect.name === effectName);
     effectSliderUpdate();
   }
-  effectSliderUpdate();
+  imageEffectOriginalCheck();
   sliderElement.noUiSlider.on('update', () => {
     valueElement.value = sliderElement.noUiSlider.get();
     imagePreview.style.filter = `${imageEffectCurrent.filter}(${valueElement.value}${imageEffectCurrent.unit})`;
   });
 }
 
+export { effectChange, effectReset };
