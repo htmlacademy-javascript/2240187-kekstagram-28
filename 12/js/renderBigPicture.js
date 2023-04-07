@@ -1,6 +1,7 @@
 import { isEscapeKey, isEnterKey } from './util.js';
-import { thumbnailContainer } from './renderThumbnail.js';
 import { renderComments, clearComment } from './renderComment.js';
+
+const thumbnailContainer = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture
   .querySelector('.big-picture__img')

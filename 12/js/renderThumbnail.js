@@ -1,4 +1,4 @@
-export const thumbnailContainer = document.querySelector('.pictures');
+const thumbnailContainer = document.querySelector('.pictures');
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const thumbnail = document.createDocumentFragment();
 

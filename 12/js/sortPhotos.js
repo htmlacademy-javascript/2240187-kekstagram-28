@@ -8,8 +8,6 @@ const sortByRandomButton = document.querySelector('#filter-random');
 const sortByCommentsNumberButton = document.querySelector('#filter-discussed');
 const pictureCount = 10;
 
-showFilterButtonContainer.classList.remove('img-filters--inactive');
-
 const randomSort = () => Math.random() - 0.5;
 
 const discussedSort = (a, b) => b.comments.length - a.comments.length;
@@ -23,6 +21,7 @@ function resetPictures () {
 }
 
 const renderFilters = (data) => {
+  showFilterButtonContainer.classList.remove('img-filters--inactive');
   sortByDefaultButton.addEventListener('click', () => {
     resetPictures();
     sortByDefaultButton.classList.add('img-filters__button--active');

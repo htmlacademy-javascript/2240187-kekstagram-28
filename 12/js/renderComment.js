@@ -2,7 +2,6 @@ const commentsContainer = document.querySelector('.social__comments');
 const commentTemplate = document.querySelector('#social__comment').content.querySelector('.social__comment');
 const comment = document.createDocumentFragment();
 
-
 const clearComment = () => {
   commentsContainer.innerHTML = '';
 };
