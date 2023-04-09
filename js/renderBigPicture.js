@@ -94,9 +94,9 @@ const openBigPicture = (evt, thumbnailsData) => {
   bigPictureComments.classList.remove('hidden');
   loadCommentsButton.classList.remove('hidden');
   bigPictureImg.src = currentThumbnailData.url;
-  photoDescription.innerHTML = currentThumbnailData.description;
-  bigPictureLikes.innerHTML = currentThumbnailData.likes;
-  bigPictureCommentsAll.innerHTML = currentThumbnailData.comments.length;
+  photoDescription.textContent = currentThumbnailData.description;
+  bigPictureLikes.textContent = currentThumbnailData.likes;
+  bigPictureCommentsAll.textContent = currentThumbnailData.comments.length;
 
   renderComments(currentThumbnailData.comments);
 

@@ -6,8 +6,8 @@ const hashtagInput = imageUploadForm.querySelector('.text__hashtags');
 const commentInput = imageUploadForm.querySelector('.text__description');
 const uploadForm = document.querySelector('#upload-select-image');
 const uploadSubmitButton = uploadForm.querySelector('#upload-submit');
-const maxHashtagCount = 5;
-const maxCommentCharacters = 140;
+const MAX_HASHTAG_COUNT = 5;
+const MAX_COMMENT_CHARACTERS = 140;
 const submitButtonText = {
   IDLE: 'Сохранить',
   SENDING: 'Сохраняю...'
@@ -39,7 +39,7 @@ function validateHashtag(hashtagString) {
 
 function validateHashtagCount(hashtagString) {
   const hashtagStringArray = hashtagString.trim().split(' ');
-  if (hashtagStringArray.length > maxHashtagCount) {
+  if (hashtagStringArray.length > MAX_HASHTAG_COUNT) {
     return false;
   }
   return true;
@@ -60,7 +60,7 @@ function validateUniqueHashtag(hashtagString) {
 }
 
 function validateComment(commentString) {
-  return commentString.length <= maxCommentCharacters;
+  return commentString.length <= MAX_COMMENT_CHARACTERS;
 }
 
 pristine.addValidator(
@@ -83,6 +83,10 @@ pristine.addValidator(
   validateComment,
   'Комментарий должен содержать не более 140 символов'
 );
+
+const resetValidation = () => {
+  pristine.reset();
+};
 
 const blockSubmitButton = () => {
   uploadSubmitButton.disabled = true;
@@ -117,4 +121,4 @@ const setUserFormSubmit = () => {
 };
 
 
-export { setUserFormSubmit, pristine };
+export { setUserFormSubmit, resetValidation };

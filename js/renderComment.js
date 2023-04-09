@@ -3,7 +3,7 @@ const commentTemplate = document.querySelector('#social__comment').content.query
 const comment = document.createDocumentFragment();
 
 const clearComment = () => {
-  commentsContainer.innerHTML = '';
+  commentsContainer.textContent = '';
 };
 
 const renderComments = (randomCommentData) => {
@@ -13,7 +13,7 @@ const renderComments = (randomCommentData) => {
       commentElement.dataset.id = item.id;
       commentElement.querySelector('.social__picture').src = item.avatar;
       commentElement.querySelector('.social__picture').alt = item.name;
-      commentElement.querySelector('.social__text').innerHTML = item.message;
+      commentElement.querySelector('.social__text').textContent = item.message;
       comment.appendChild(commentElement);
     });
     commentsContainer.append(comment);

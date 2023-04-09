@@ -1,6 +1,6 @@
 import { isEscapeKey } from './util.js';
-import { scaleImageReset, buttonBigger, buttonSmaller } from './scale.js';
-import { pristine } from './validation.js';
+import { scaleImageReset, increaseSize, decreaseSize } from './scale.js';
+import { resetValidation } from './validation.js';
 import { effectChange, effectReset } from './renderImageEffect.js';
 
 const imagePreview = document.querySelector('.img-upload__preview img');
@@ -14,7 +14,7 @@ const imageUploadButton = document.querySelector('.img-upload__input');
 const scaleValueControl = document.querySelector('.scale__control--value');
 const scaleSmaller = document.querySelector('.scale__control--smaller');
 const scaleBigger = document.querySelector('.scale__control--bigger');
-const scaleDefault = 100;
+const SCALE_DEFAULT = 100;
 
 const onDocKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -49,13 +49,13 @@ export function closeImageEditor() {
   uploadPhotoSection.classList.add('hidden');
   document.body.classList.remove('modal-open');
   imageUploadForm.reset();
-  pristine.reset();
+  resetValidation();
   scaleImageReset();
   effectReset();
   removeInputListener();
 
-  scaleSmaller.removeEventListener('click', buttonSmaller);
-  scaleBigger.removeEventListener('click', buttonBigger);
+  scaleSmaller.removeEventListener('click', decreaseSize);
+  scaleBigger.removeEventListener('click', increaseSize);
   cancelButton.removeEventListener('click', closeImageEditor);
   imageUploadForm.removeEventListener('change', effectChange);
   imageUploadForm.removeEventListener('keydown', onDocKeydown);
@@ -68,11 +68,11 @@ function openImageEditor() {
 
   uploadPhotoSection.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  scaleValueControl.value = `${scaleDefault}%`;
+  scaleValueControl.value = `${SCALE_DEFAULT}%`;
   addInputListener();
 
-  scaleSmaller.addEventListener('click', buttonSmaller);
-  scaleBigger.addEventListener('click', buttonBigger);
+  scaleSmaller.addEventListener('click', decreaseSize);
+  scaleBigger.addEventListener('click', increaseSize);
   cancelButton.addEventListener('click', closeImageEditor);
   imageUploadForm.addEventListener('change', effectChange);
   imageUploadForm.addEventListener('keydown', onDocKeydown);
@@ -82,4 +82,4 @@ const renderUploadImage = () => {
   imageUpload.addEventListener('change', openImageEditor);
 };
 
-export {renderUploadImage};
+export { renderUploadImage };

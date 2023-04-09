@@ -6,7 +6,7 @@ const showFilterAllButtons = showFiltersBarContainer.querySelectorAll('.img-filt
 const sortByDefaultButton = document.querySelector('#filter-default');
 const sortByRandomButton = document.querySelector('#filter-random');
 const sortByCommentsNumberButton = document.querySelector('#filter-discussed');
-const pictureCount = 10;
+const PICTURE_COUNT = 10;
 
 const randomSort = () => Math.random() - 0.5;
 
@@ -14,7 +14,7 @@ const discussedSort = (a, b) => b.comments.length - a.comments.length;
 
 const defaultSort = (a, b) => a.id - b.id;
 
-function resetPictures () {
+function resetPictures() {
   showFilterAllButtons.forEach((item) => item.classList.remove('img-filters__button--active'));
   const allPicture = document.querySelectorAll('.picture');
   allPicture.forEach((item) => item.remove());
@@ -30,7 +30,7 @@ const renderFilters = (data) => {
   sortByRandomButton.addEventListener('click', () => {
     resetPictures();
     sortByRandomButton.classList.add('img-filters__button--active');
-    reRenderAll(data.sort(randomSort).slice(0, pictureCount));
+    reRenderAll(data.sort(randomSort).slice(0, PICTURE_COUNT));
   });
   sortByCommentsNumberButton.addEventListener('click', () => {
     resetPictures();
