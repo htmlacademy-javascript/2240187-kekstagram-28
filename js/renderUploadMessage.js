@@ -1,3 +1,4 @@
+
 import { isEscapeKey } from './util.js';
 import { closeImageEditor} from './renderUploadImage.js';
 
@@ -5,6 +6,7 @@ const uploadMessageContainer = document.querySelector('body');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 const uploadPhotoSection = document.querySelector('.img-upload__overlay');
+
 
 const closeSuccessWindow = () => {
   document.querySelector('.success').remove();
@@ -19,7 +21,7 @@ const closeErrorWindow = () => {
   uploadMessageContainer.removeEventListener('keydown', onDocKeydown);
 };
 
-function onDocKeydown(evt) {
+function onDocKeydown (evt) {
   const successWindow = document.querySelector('.success');
   const errorWindow = document.querySelector('.error');
   if (isEscapeKey(evt)) {
@@ -28,16 +30,6 @@ function onDocKeydown(evt) {
     } else if (errorWindow !== null) {
       closeErrorWindow();
     }
-  }
-}
-
-function onOutOfTheBoxClick(evt) {
-  const successWindow = document.querySelector('.success');
-  const errorWindow = document.querySelector('.error');
-  if (evt.target === successWindow) {
-    closeSuccessWindow();
-  } else if (evt.target === errorWindow) {
-    closeErrorWindow();
   }
 }
 
@@ -60,5 +52,15 @@ const renderErrorMessage = () => {
   uploadPhotoSection.classList.add('modal-open');
   document.addEventListener('click', onOutOfTheBoxClick);
 };
+
+function onOutOfTheBoxClick(evt) {
+  const successWindow = document.querySelector('.success');
+  const errorWindow = document.querySelector('.error');
+  if (evt.target === successWindow) {
+    closeSuccessWindow();
+  } else if (evt.target === errorWindow) {
+    closeErrorWindow();
+  }
+}
 
 export { renderSuccessMessage, renderErrorMessage };

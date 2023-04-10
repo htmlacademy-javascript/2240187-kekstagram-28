@@ -1,8 +1,11 @@
+
+
 import { isEscapeKey } from './util.js';
 import { scaleImageReset, increaseSize, decreaseSize } from './scale.js';
 import { resetValidation } from './validation.js';
 import { effectChange, effectReset } from './renderImageEffect.js';
 
+const SCALE_DEFAULT = 100;
 const imagePreview = document.querySelector('.img-upload__preview img');
 const imageUploadForm = document.querySelector('.img-upload__form');
 const hashtagInput = imageUploadForm.querySelector('.text__hashtags');
@@ -14,22 +17,16 @@ const imageUploadButton = document.querySelector('.img-upload__input');
 const scaleValueControl = document.querySelector('.scale__control--value');
 const scaleSmaller = document.querySelector('.scale__control--smaller');
 const scaleBigger = document.querySelector('.scale__control--bigger');
-const SCALE_DEFAULT = 100;
-
-const onDocKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    closeImageEditor();
-  }
-};
 
 
 const inputInFocus = () => {
-  imageUpload.removeEventListener('keydown', onDocKeydown);
+  imageUploadForm.removeEventListener('keydown', onDocKeydown);
 };
 
 const inputOutFocus = () => {
-  imageUpload.addEventListener('keydown', onDocKeydown);
+  imageUploadForm.addEventListener('keydown', onDocKeydown);
 };
+
 
 const addInputListener = () => {
   hashtagInput.addEventListener('focus', inputInFocus);
@@ -38,6 +35,7 @@ const addInputListener = () => {
   commentInput.addEventListener('blur', inputOutFocus);
 };
 
+
 const removeInputListener = () => {
   hashtagInput.removeEventListener('focus', inputInFocus);
   commentInput.removeEventListener('focus', inputInFocus);
@@ -45,7 +43,7 @@ const removeInputListener = () => {
   commentInput.removeEventListener('blur', inputOutFocus);
 };
 
-export function closeImageEditor() {
+export const closeImageEditor = () => {
   uploadPhotoSection.classList.add('hidden');
   document.body.classList.remove('modal-open');
   imageUploadForm.reset();
@@ -59,11 +57,10 @@ export function closeImageEditor() {
   cancelButton.removeEventListener('click', closeImageEditor);
   imageUploadForm.removeEventListener('change', effectChange);
   imageUploadForm.removeEventListener('keydown', onDocKeydown);
-}
+};
 
-function openImageEditor() {
+const openImageEditor = () => {
   const imageUrl = imageUploadButton.files[0];
-  //console.log(image);
   imagePreview.src = URL.createObjectURL(imageUrl);
 
   uploadPhotoSection.classList.remove('hidden');
@@ -76,6 +73,12 @@ function openImageEditor() {
   cancelButton.addEventListener('click', closeImageEditor);
   imageUploadForm.addEventListener('change', effectChange);
   imageUploadForm.addEventListener('keydown', onDocKeydown);
+};
+
+function onDocKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    closeImageEditor();
+  }
 }
 
 const renderUploadImage = () => {

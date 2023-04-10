@@ -6,11 +6,11 @@ import { showAlert } from './util.js';
 import { setUserFormSubmit } from './validation.js';
 import { renderFilters } from './sortPhotos.js';
 
-export function reRenderAll(data) {
+export const reRenderAll = (data) => {
   renderThumbnail(data);
   renderBigPicture(data);
   renderUploadImage(data);
-}
+};
 
 setUserFormSubmit();
 getData()

@@ -8,34 +8,34 @@ const getRandomInteger = (a, b) => {
 };
 
 const getUniqueValue = (min, max) => {
-  const previousValue = [];
+  const previousValues = [];
 
   return function () {
     let currentValue = getRandomInteger(min, max);
-    if (previousValue.length >= (max - min + 1)) {
+    if (previousValues.length >= (max - min + 1)) {
       return null;
     }
-    while (previousValue.includes(currentValue)) {
+    while (previousValues.includes(currentValue)) {
       currentValue = getRandomInteger(min, max);
     }
-    previousValue.push(currentValue);
+    previousValues.push(currentValue);
     return currentValue;
   };
 };
 
 
 const getRandomValue = (min, max) => {
-  const previousValue = [];
+  const previousValues = [];
 
   return function () {
     let currentValue = getRandomInteger(min, max);
-    if (previousValue.length >= (max - min + 1)) {
+    if (previousValues.length >= (max - min + 1)) {
       return null;
     }
-    while (previousValue.includes(currentValue)) {
+    while (previousValues.includes(currentValue)) {
       currentValue = getRandomInteger(min, max);
     }
-    previousValue.push(currentValue);
+    previousValues.push(currentValue);
     return currentValue;
   };
 };

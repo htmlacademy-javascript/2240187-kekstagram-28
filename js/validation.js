@@ -1,13 +1,13 @@
 import { sendData } from './api.js';
 import { renderSuccessMessage, renderErrorMessage } from './renderUploadMessage.js';
 
+const MAX_HASHTAG_COUNT = 5;
+const MAX_COMMENT_CHARACTERS = 140;
 const imageUploadForm = document.querySelector('.img-upload__form');
 const hashtagInput = imageUploadForm.querySelector('.text__hashtags');
 const commentInput = imageUploadForm.querySelector('.text__description');
 const uploadForm = document.querySelector('#upload-select-image');
 const uploadSubmitButton = uploadForm.querySelector('#upload-submit');
-const MAX_HASHTAG_COUNT = 5;
-const MAX_COMMENT_CHARACTERS = 140;
 const submitButtonText = {
   IDLE: 'Сохранить',
   SENDING: 'Сохраняю...'
@@ -22,7 +22,7 @@ const pristine = new Pristine(imageUploadForm, {
   errorTextClass: 'img-upload__error',
 });
 
-function validateHashtag(hashtagString) {
+const validateHashtag = (hashtagString) => {
   if (hashtagString === '') {
     return true;
   }
@@ -35,17 +35,17 @@ function validateHashtag(hashtagString) {
     }
   }
   return true;
-}
+};
 
-function validateHashtagCount(hashtagString) {
+const validateHashtagCount = (hashtagString) => {
   const hashtagStringArray = hashtagString.trim().split(' ');
   if (hashtagStringArray.length > MAX_HASHTAG_COUNT) {
     return false;
   }
   return true;
-}
+};
 
-function validateUniqueHashtag(hashtagString) {
+const validateUniqueHashtag = (hashtagString) => {
   const hashtagStringArray = hashtagString.trim().split(' ');
   const usedHashtags = {};
   for (let i = 0; i < hashtagStringArray.length; i++) {
@@ -57,11 +57,9 @@ function validateUniqueHashtag(hashtagString) {
     }
   }
   return true;
-}
+};
 
-function validateComment(commentString) {
-  return commentString.length <= MAX_COMMENT_CHARACTERS;
-}
+const validateComment = (commentString) => commentString.length <= MAX_COMMENT_CHARACTERS;
 
 pristine.addValidator(
   hashtagInput,

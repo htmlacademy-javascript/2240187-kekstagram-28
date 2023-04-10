@@ -1,19 +1,19 @@
-const scaleValueControl = document.querySelector('.scale__control--value');
-const imagePreview = document.querySelector('.img-upload__preview img');
 const SCALE_STEP = 25;
 const SCALE_MIN = 25;
 const SCALE_MAX = 100;
+const scaleValueControl = document.querySelector('.scale__control--value');
+const imagePreview = document.querySelector('.img-upload__preview img');
 
 const scaleImageReset = () => {
   imagePreview.removeAttribute('style');
 };
 
-function scaleImage(scaleValue) {
+const scaleImage = (scaleValue) => {
   scaleValueControl.value = `${scaleValue}%`;
   imagePreview.style.transform = `scale(${scaleValue / 100})`;
-}
+};
 
-function decreaseSize() {
+const decreaseSize = () => {
   const scaleCurrentValue = parseInt(scaleValueControl.value, 10);
   let scaleNewValue = scaleCurrentValue - SCALE_STEP;
   if (scaleNewValue < SCALE_MIN) {
@@ -21,9 +21,9 @@ function decreaseSize() {
     scaleImage(scaleNewValue);
   }
   scaleImage(scaleNewValue);
-}
+};
 
-function increaseSize() {
+const increaseSize = () => {
   const scaleCurrentValue = parseInt(scaleValueControl.value, 10);
   let scaleNewValue = scaleCurrentValue + SCALE_STEP;
   if (scaleNewValue > SCALE_MAX) {
@@ -31,6 +31,6 @@ function increaseSize() {
     scaleImage(scaleNewValue);
   }
   scaleImage(scaleNewValue);
-}
+};
 
 export { scaleImageReset, decreaseSize, increaseSize };

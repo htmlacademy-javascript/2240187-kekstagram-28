@@ -54,7 +54,7 @@ const effectReset = () => {
   effectSliderUpdate();
 };
 
-function effectChange(evt) {
+const effectChange = (evt) => {
   if (evt.target.classList.contains('effects__radio')) {
     const effectName = evt.target.value;
     imagePreview.className = `effects__preview--${effectName}`;
@@ -66,6 +66,6 @@ function effectChange(evt) {
     valueElement.value = sliderElement.noUiSlider.get();
     imagePreview.style.filter = `${imageEffectCurrent.filter}(${valueElement.value}${imageEffectCurrent.unit})`;
   });
-}
+};
 
 export { effectChange, effectReset };
