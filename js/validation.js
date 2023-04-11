@@ -3,15 +3,15 @@ import { renderSuccessMessage, renderErrorMessage } from './renderUploadMessage.
 
 const MAX_HASHTAG_COUNT = 5;
 const MAX_COMMENT_CHARACTERS = 140;
+const submitButtonText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...'
+};
 const imageUploadForm = document.querySelector('.img-upload__form');
 const hashtagInput = imageUploadForm.querySelector('.text__hashtags');
 const commentInput = imageUploadForm.querySelector('.text__description');
 const uploadForm = document.querySelector('#upload-select-image');
 const uploadSubmitButton = uploadForm.querySelector('#upload-submit');
-const submitButtonText = {
-  IDLE: 'Сохранить',
-  SENDING: 'Сохраняю...'
-};
 
 const pristine = new Pristine(imageUploadForm, {
   classTo: 'img-upload__text',

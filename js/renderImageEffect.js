@@ -1,9 +1,3 @@
-const imagePreview = document.querySelector('.img-upload__preview img');
-const imgPreviewContainer = document.querySelector('.img-upload__preview-container');
-const sliderElement = imgPreviewContainer.querySelector('.effect-level__slider');
-const valueElement = imgPreviewContainer.querySelector('.effect-level__value');
-const sliderContainer = imgPreviewContainer.querySelector('.img-upload__effect-level');
-
 const IMAGE_EFFECTS = [
   { name: 'none', filter: 'none', min: 0, max: 100, step: 1, unit: '' },
   { name: 'chrome', filter: 'grayscale', min: 0, max: 1, step: 0.1, unit: '' },
@@ -12,9 +6,15 @@ const IMAGE_EFFECTS = [
   { name: 'phobos', filter: 'blur', min: 0, max: 3, step: 0.1, unit: 'px' },
   { name: 'heat', filter: 'brightness', min: 1, max: 3, step: 0.1, unit: '' },
 ];
-
-
 const imageEffectNone = IMAGE_EFFECTS[0];
+
+const imagePreview = document.querySelector('.img-upload__preview img');
+const imgPreviewContainer = document.querySelector('.img-upload__preview-container');
+const sliderElement = imgPreviewContainer.querySelector('.effect-level__slider');
+const valueElement = imgPreviewContainer.querySelector('.effect-level__value');
+const sliderContainer = imgPreviewContainer.querySelector('.img-upload__effect-level');
+
+
 let imageEffectCurrent = imageEffectNone;
 
 noUiSlider.create(sliderElement, {
